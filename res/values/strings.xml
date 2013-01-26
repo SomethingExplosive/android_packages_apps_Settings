@@ -4903,4 +4903,11 @@
 
     <!-- Text to display in regulatory info screen (from device overlay). -->
     <string name="regulatory_info_text"></string>
+
+    <!-- SoMeX edits -->
+
+    <!-- About phone screen, status item label -->
+    <string name="mod_version">SoMeX version</string>
+
+    <!-- SoMeX edits end -->
 </resources>
