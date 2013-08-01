@@ -318,7 +318,6 @@ public class DevelopmentSettings extends PreferenceFragment
 
         mRootAccess = (ListPreference) findPreference(ROOT_ACCESS_KEY);
         mRootAccess.setOnPreferenceChangeListener(this);
-        removeRootOptionsIfRequired();
     }
 
     private ListPreference addListPreference(String prefKey) {
@@ -343,15 +342,6 @@ public class DevelopmentSettings extends PreferenceFragment
         mAllPrefs.add(pref);
         mResetCbPrefs.add(pref);
         return pref;
-    }
-
-    private void removeRootOptionsIfRequired() {
-        // user builds don't get root, and eng always gets root
-        if (!Build.IS_DEBUGGABLE || "eng".equals(Build.TYPE)) {
-            if (mRootAccess != null) {
-                getPreferenceScreen().removePreference(mRootAccess);
-            }
-        }
     }
 
     @Override
