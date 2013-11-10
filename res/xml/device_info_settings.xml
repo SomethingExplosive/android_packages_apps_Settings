@@ -109,8 +109,8 @@
 
 	<!-- Device Mod version -->
 	<Preference android:key="mod_version"
-		style=?android:preferenceInformationStyle"
-		android:title=@string/mod_version"
+		style="?android:preferenceInformationStyle"
+		android:title="@string/mod_version"
 		android:summary="@string/device_info_default"/>
 
         <!-- Device FCC equipment id -->
