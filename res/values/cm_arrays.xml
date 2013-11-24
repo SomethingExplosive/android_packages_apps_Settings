@@ -13,7 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <!--- Sms security limit -->
     <string-array name="sms_security_check_limit_entries" translatable="false">
         <item>@string/sms_security_check_limit_default</item>
@@ -28,3 +28,4 @@
         <item>100</item>
         <item>200</item>
     </string-array>
+</resources>
