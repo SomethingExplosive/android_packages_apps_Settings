@@ -85,6 +85,10 @@ public class SecuritySettings extends RestrictedSettingsFragment
     private static final String KEY_NOTIFICATION_ACCESS = "manage_notification_access";
     private static final String PACKAGE_MIME_TYPE = "application/vnd.android.package-archive";
 
+    // SMS Security
+    private static final String KEY_SMS_SECURITY_CHECK_PREF = "sms_security_check_limit";
+    private static final String KEY_APP_SECURITY_CATEGORY = "app_security";
+
     private PackageManager mPM;
     private DevicePolicyManager mDPM;
 
@@ -110,6 +114,9 @@ public class SecuritySettings extends RestrictedSettingsFragment
 
     private boolean mIsPrimary;
 
+    // SMS Security
+    private ListPreference mSmsSecurityCheck;
+
     public SecuritySettings() {
         super(null /* Don't ask for restrictions pin on creation. */);
     }
@@ -133,6 +140,9 @@ public class SecuritySettings extends RestrictedSettingsFragment
         }
         addPreferencesFromResource(R.xml.security_settings);
         root = getPreferenceScreen();
+
+        // Add package manager to check if features are available
+        PackageManager pm = getPackageManager();
 
         // Add options for lock/unlock screen
         int resid = 0;
@@ -314,6 +324,17 @@ public class SecuritySettings extends RestrictedSettingsFragment
 
 	// App security settings
         addPreferencesFromResource(R.xml.security_settings_app_cyanogenmod);
+        mSmsSecurityCheck = (ListPreference) root.findPreference(KEY_SMS_SECURITY_CHECK_PREF);
+        if (pm.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+                mSmsSecurityCheck = (ListPreference) root.findPreference(KEY_SMS_SECURITY_CHECK_PREF);
+                mSmsSecurityCheck.setOnPreferenceChangeListener(this);
+                int smsSecurityCheck = Integer.valueOf(mSmsSecurityCheck.getValue());
+                updateSmsSecuritySummary(smsSecurityCheck);
+        } else {
+                PreferenceGroup appCategory = (PreferenceGroup)
+                                root.findPreference(KEY_APP_SECURITY_CATEGORY);
+                appCategory.removePreference(mSmsSecurityCheck);
+        }
 
         mNotificationAccess = findPreference(KEY_NOTIFICATION_ACCESS);
         if (mNotificationAccess != null) {
@@ -413,6 +434,11 @@ public class SecuritySettings extends RestrictedSettingsFragment
         if (mWarnInstallApps != null) {
             mWarnInstallApps.dismiss();
         }
+    }
+
+    private void updateSmsSecuritySummary(int i) {
+        String message = getString(R.string.sms_security_check_limit_summary, i);
+        mSmsSecurityCheck.setSummary(message);
     }
 
     private void setupLockAfterPreference() {
@@ -619,6 +645,11 @@ public class SecuritySettings extends RestrictedSettingsFragment
                 Log.e("SecuritySettings", "could not persist lockAfter timeout setting", e);
             }
             updateLockAfterPreferenceSummary();
+        } else if (preference == mSmsSecurityCheck) {
+            int smsSecurityCheck = Integer.valueOf((String) value);
+            Settings.Global.putInt(getContentResolver(), Settings.Global.SMS_OUTGOING_CHECK_MAX_COUNT,
+                     smsSecurityCheck);
+            updateSmsSecuritySummary(smsSecurityCheck);
         }
         return true;
     }
