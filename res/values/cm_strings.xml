@@ -40,4 +40,8 @@
 equiring confirmation</string>
     <string name="sms_security_check_limit_default">30 (Default)</string>
 
+    <!-- USB Mass Storage -->
+    <string name="storage_rescan_media">Rescan media for the storage volume</string>
+    <string name="storage_rescan_media_complete">Scan completed</string>
+
 </resources>
