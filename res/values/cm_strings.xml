@@ -45,4 +45,8 @@
     <string name="storage_rescan_media">Rescan media for the storage volume</string>
     <string name="storage_rescan_media_complete">Scan completed</string>
 
+    <!-- Voice+ -->
+    <string name="voice_plus_title">Voice+</string>
+    <string name="voice_plus_summary">Enable all apps to send SMS messages through Google Voice</string>
+
 </resources>
